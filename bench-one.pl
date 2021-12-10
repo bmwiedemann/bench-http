@@ -25,10 +25,14 @@ die "$url connection failed" unless $sock;
 my $req =
     "GET $resource HTTP/1.1\r\n"
    ."Host: $host\r\n"
+   ."Range: bytes=0-10230000\r\n"
    ."\r\n";
 
 print $sock $req;
 my $reply = <$sock>;
 $reply=~s/\r?\n//;
 push(@t, [gettimeofday()]);
-print $url, ":", $reply, ":", tv_interval($t[0], $t[1]), ":", tv_interval($t[1], $t[2]), "\n";
+my $data;
+read($sock, $data, 10230000);
+push(@t, [gettimeofday()]);
+print $url, ":", $reply, ":", tv_interval($t[0], $t[1]), ":", tv_interval($t[1], $t[2]), ":", tv_interval($t[2], $t[3]), ":", length($data), "\n";
