@@ -20,6 +20,7 @@ my $sock = new IO::Socket::INET(
                 Proto    => "tcp",
             );
 push(@t, [gettimeofday()]);
+die "$url connection failed" unless $sock;
 
 my $req =
     "GET $resource HTTP/1.1\r\n"
