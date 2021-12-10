@@ -35,4 +35,4 @@ push(@t, [gettimeofday()]);
 my $data;
 read($sock, $data, 10230000);
 push(@t, [gettimeofday()]);
-print $url, ":", $reply, ":", tv_interval($t[0], $t[1]), ":", tv_interval($t[1], $t[2]), ":", tv_interval($t[2], $t[3]), ":", length($data), "\n";
+print $url, ":", $reply, ":", tv_interval($t[0], $t[1]), ":", tv_interval($t[1], $t[2]), ":", tv_interval($t[0], $t[3]), ":", length($data), "\n";
