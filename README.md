@@ -11,3 +11,7 @@ zypper -n in perl-IO-Socket-INET6
 ./benchlist.sh | tee out
 sudo findbestmirror.pl < out
 ```
+
+The findbestmirror.pl script will add the best mirror to repos that only used download.o.o , if it has write permissions to /etc/zypp/repos.d/
+
+It is a good idea to keep a backup of that dir.
