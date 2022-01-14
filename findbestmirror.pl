@@ -22,6 +22,7 @@ foreach(@mirrors[0..3]) {
 my $besturl=$mirrors[0]->{url};
 
 print "apply best mirror\n" if $updaterepos;
+REPO:
 for my $repo (</etc/zypp/repos.d/*.repo>) {
   open(my $fd, "<", $repo) or die "could not read $repo: $!";
   my @lines = <$fd>;
@@ -35,6 +36,9 @@ for my $repo (</etc/zypp/repos.d/*.repo>) {
         splice(@lines, $li, 0, $newline);
         $changed = 1;
       }
+    }
+    if($l =~ /^enabled=0$/) {
+      next REPO;
     }
   }
   next unless $changed;
