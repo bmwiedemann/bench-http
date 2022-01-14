@@ -1,6 +1,7 @@
 #!/usr/bin/perl -w
 use strict;
 our $debug = 1;
+our $updaterepos = 1;
 
 my @mirrors=();
 while(<>) {
@@ -20,7 +21,7 @@ foreach(@mirrors[0..3]) {
 }
 my $besturl=$mirrors[0]->{url};
 
-print "apply best mirror\n";
+print "apply best mirror\n" if $updaterepos;
 for my $repo (</etc/zypp/repos.d/*.repo>) {
   open(my $fd, "<", $repo) or die "could not read $repo: $!";
   my @lines = <$fd>;
@@ -38,7 +39,9 @@ for my $repo (</etc/zypp/repos.d/*.repo>) {
   }
   next unless $changed;
   print "\n>$repo:\n", @lines if $debug;
-  open($fd, ">", $repo) or die "could not write $repo: $!";
-  print $fd @lines;
-  close $fd;
+  if($updaterepos) {
+    open($fd, ">", $repo) or die "could not write $repo: $!";
+    print $fd @lines;
+    close $fd;
+  }
 }
