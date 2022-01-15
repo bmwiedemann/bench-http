@@ -8,7 +8,7 @@ inspired by [this reddit discussion](https://www.reddit.com/r/openSUSE/comments/
 git clone https://github.com/bmwiedemann/bench-http
 cd bench-http
 zypper -n in perl-IO-Socket-INET6
-./benchlist.sh | tee out
+./benchlist.pl | tee out
 sudo findbestmirror.pl < out
 ```
 

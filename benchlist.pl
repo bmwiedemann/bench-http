@@ -11,9 +11,15 @@ my @mirrors = ();
 for (split("\n", $mirrors)) {
   m!^\s*<li><a href="([^"]+)"! && $1!~m!\.(meta4|metalink|torrent|magnet)$! && push @mirrors, $1;
 }
+my @rtts = ();
 for my $m (@mirrors) {
   $m =~ s/[^a-zA-Z0-9.:\/_-]/XX/g; #sanitize
   $m =~ s/^https/http/;
+  $ENV{MAXRTT} = (sort({$a <=> $b} @rtts))[15] || 2;
   my $bench = `timeout 2m ./bench-one.pl $m`;
+  next unless $? == 0;
+  my @a = split(":", $bench);
+  my $rtt = $a[3];
+  push(@rtts, $rtt);
   print $bench;
 }
