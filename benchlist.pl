@@ -15,7 +15,7 @@ my @rtts = ();
 for my $m (@mirrors) {
   $m =~ s/[^a-zA-Z0-9.:\/_-]/XX/g; #sanitize
   $m =~ s/^https/http/;
-  $ENV{MAXRTT} = (sort({$a <=> $b} @rtts))[15] || 2;
+  $ENV{MAXRTT} = 1.1*((sort({$a <=> $b} @rtts))[15] || 2);
   my $bench = `timeout 2m ./bench-one.pl $m`;
   next unless $? == 0;
   my @a = split(":", $bench);
