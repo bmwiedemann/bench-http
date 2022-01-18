@@ -8,6 +8,8 @@ while(<>) {
   my @a = split(":");
   my $m = { url=>"$a[0]:$a[1]", reply=>$a[2], RTT=>$a[3], d1=>$a[4], dataspeed=>$a[5], datasize=>$a[6]};
   $m->{url} =~ s{distribution/leap/..../iso/.*}{};
+  $m->{url} =~ s{tumbleweed/iso/.*}{};
+  $m->{url} =~ s{tumbleweed/repo/oss/.*}{};
   $m->{url} =~ s{^https}{http};
   next unless $m->{datasize} == 10230000;
   push(@mirrors, $m);
