@@ -1,5 +1,6 @@
 #!/usr/bin/perl -w
 use strict;
+use LWP::Simple;
 our $debug = 1;
 our $updaterepos = 1;
 
@@ -13,6 +14,13 @@ while(<>) {
   $m->{url} =~ s{^https}{http};
   next unless $m->{datasize} == 10230000;
   push(@mirrors, $m);
+}
+
+sub test_repo($)
+{ my $r = shift;
+  my $testurl = "$r/repodata/repomd.xml";
+  my $xml = get($testurl) || "";
+  return $xml =~ m/<revision>/;
 }
 
 sub metric($) { $_[0]->{dataspeed} + 2*$_[0]->{d1} + 6*$_[0]->{RTT} }
@@ -34,8 +42,9 @@ for my $repo (</etc/zypp/repos.d/*.repo>) {
   for(my $li=$#lines; $li>=0; $li--) {
     my $l = $lines[$li];
     if($l=~m{^baseurl=http.?://download.opensuse.org/(.*)}) {
-      my $newline = "baseurl=$besturl$1\n";
-      if($l !~ m{/repositories/} and $lines[$li-1] !~ /^baseurl=/) {
+      my $newrepo = "$besturl$1";
+      my $newline = "baseurl=$newrepo\n";
+      if($l !~ m{/repositories/} and $lines[$li-1] !~ /^baseurl=/ and test_repo($newrepo)) {
         splice(@lines, $li, 0, $newline);
         $changed = 1;
       }
