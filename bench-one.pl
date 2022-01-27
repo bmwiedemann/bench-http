@@ -13,6 +13,12 @@ my $resource = $2; #'/distribution/leap/15.3/iso/openSUSE-Leap-15.3-2-DVD-aarch6
 my $tcpto = 3;
 
 my @t;
+new IO::Socket::INET(
+                PeerAddr => "$host",
+                PeerPort => "$port",
+                Timeout  => 1,
+                Proto    => "tcp",
+            ); # warmup DNS+routers
 push(@t, [gettimeofday()]);
 my $sock = new IO::Socket::INET(
                 PeerAddr => "$host",
