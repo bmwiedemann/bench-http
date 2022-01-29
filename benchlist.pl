@@ -1,5 +1,6 @@
 #!/usr/bin/perl -w
 use strict;
+use FindBin;
 use LWP::Simple;
 my $url = "http://download.opensuse.org/tumbleweed/repo/oss/boot/x86_64/un-fonts.rpm.mirrorlist";
 my $ret = system("grep", "-q", 'ID="opensuse-leap"', "/etc/os-release");
@@ -16,7 +17,7 @@ for my $m (@mirrors) {
   $m =~ s/[^a-zA-Z0-9.:\/_-]/XX/g; #sanitize
   $m =~ s/^https/http/;
   $ENV{MAXRTT} = 1.1*((sort({$a <=> $b} @rtts))[15] || 2);
-  my $bench = `timeout 2m ./bench-one.pl $m`;
+  my $bench = `timeout 2m $FindBin::Bin/bench-one.pl $m`;
   next unless $? == 0;
   my @a = split(":", $bench);
   my $rtt = $a[3];
