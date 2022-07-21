@@ -5,7 +5,7 @@ use LWP::Simple;
 my $url = "http://download.opensuse.org/tumbleweed/repo/oss/boot/x86_64/un-fonts.rpm.mirrorlist";
 my $ret = system("grep", "-q", 'ID="opensuse-leap"', "/etc/os-release");
 if ($ret == 0) { # is Leap
-  $url = "http://download.opensuse.org/distribution/leap/15.3/iso/openSUSE-Leap-15.3-DVD-x86_64-Media.iso.mirrorlist"
+  $url = "https://download.opensuse.org/distribution/leap/15.4/iso/openSUSE-Leap-15.4-NET-x86_64-Build243.2-Media.iso.mirrorlist"
 }
 my $mirrors = get $url;
 my @mirrors = ();
