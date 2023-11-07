@@ -1,4 +1,4 @@
 test:
 	./benchlist.pl
 installdeps:
-	zypper -n in perl-IO-Socket-INET6 perl-libwww-perl perl-WWW-Curl
+	zypper -n in perl-IO-Socket-INET6 perl-libwww-perl perl-Net-Curl
